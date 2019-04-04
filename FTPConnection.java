@@ -1,7 +1,7 @@
 import java.io.IOException;
+
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
-
 public class FTPConnection {
 	
 	private final String HOSTNAME;
@@ -34,8 +34,8 @@ public class FTPConnection {
 		}
 	}
 	
-	//Returns an array of FTPFile files list within path.
-	public FTPFile [] getFileListNames(String path) {
+	//Returns an array of FTPFile files list with path.
+	public FTPFile [] getFileNames(String path) {
 		FTPClient connClient = getConnection();
 		FTPFile [] files = null;
 		try {
@@ -48,12 +48,40 @@ public class FTPConnection {
 		}
 	}
 	
-	//Returns an array of FTPFile directories list within path.
-	public FTPFile [] getFileDirectoryNames(String path) {
+	//Returns an array of FTPFile files list without path.
+	public FTPFile [] getFileNames() {
+		FTPClient connClient = getConnection();
+		FTPFile [] files = null;
+		try {
+			files = connClient.listFiles();
+			closeConnection(connClient);
+			return files;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	//Returns an array of FTPFile directories list with path.
+	public FTPFile [] getDirNames(String path) {
 		FTPClient connClient = getConnection();
 		FTPFile [] files = null;
 		try {
 			files = connClient.listDirectories(path);
+			closeConnection(connClient);
+			return files;
+		} catch(IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	//Returns an array of FTPFile directories list without path.
+	public FTPFile [] getDirNames() {
+		FTPClient connClient = getConnection();
+		FTPFile [] files = null;
+		try {
+			files = connClient.listDirectories();
 			closeConnection(connClient);
 			return files;
 		} catch(IOException e) {
@@ -67,9 +95,11 @@ public class FTPConnection {
 		try {
 			client.logout();
 			client.disconnect();
+			System.out.println("\nConnection Closed\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 }
+
