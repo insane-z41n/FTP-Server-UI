@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class FTPClient {
+public class FTPTest {
 	
 	public static void main (String [] args) {
 		
