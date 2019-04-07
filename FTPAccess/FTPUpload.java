@@ -47,7 +47,8 @@ public class FTPUpload {
 			
 			if(uploadPath != null) {
 				//Upload to a specific location.
-				client.sendSiteCommand("chmod" + "755" + uploadPath);
+				//need to adjust permissions allowed for higher security.
+				client.sendSiteCommand("chmod" + "755" + uploadPath);		//allow access to read and write file.
 				client.changeWorkingDirectory(uploadPath);
 			} else {
 				client.sendSiteCommand("chmod" + "755" + client.printWorkingDirectory());
