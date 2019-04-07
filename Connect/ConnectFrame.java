@@ -1,9 +1,7 @@
 package Connect;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,20 +16,15 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import Skins.SkinManager;
+
 @SuppressWarnings("serial")
 public class ConnectFrame extends JFrame {
 	
-	public int width;
-	public int height;
+	public int width, height;
+	public String title;
 	
-	private final String fontType = "";
-	private final Color primary;
-	private final Color secondary;
-	private final Color tert;
-	private final Font titleFont;
-	private final Font infoFont;
-	private final Font buttonFont;
-	
+	private SkinManager skin;
 	private int labelWidth = 0;
 	private int btnWidth = 0;
 
@@ -39,45 +32,38 @@ public class ConnectFrame extends JFrame {
 	public JPasswordField pfPassword;
 	public JButton btnCancel, btnConnect;
 	
-	public ConnectFrame(int width, int height) {
+	public ConnectFrame(int width, int height, String title) {
 		this.width = width;
 		this.height = height;
+		this.title = title;
 		
+		skin = new SkinManager();
 		
-		primary = Color.WHITE;
-		secondary = Color.decode("#0F96D7");
-		tert = Color.GRAY;
-		titleFont = new Font(fontType, Font.BOLD, 30);
-		infoFont = new Font(fontType, Font.BOLD, 18);
-		buttonFont = new Font(fontType, Font.PLAIN, 20);
-		
-		setTitle("File Zone");
+		setTitle(title);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(width, height);
 		setLayout(new BorderLayout());
 		setLocationRelativeTo(null);
-		
-		
 	}
 	
 	public void initFrame() {
 		
-		getContentPane().setBackground(primary);
+		getContentPane().setBackground(skin.primary);
 		((JComponent) getContentPane()).setBorder(new EmptyBorder(8,8,8,8));
 		int componentWidth = width - 16;
 		//int componentHeight = height - 16;
 		JPanel titlePanel = new JPanel();
-		titlePanel.setBackground(primary);
+		titlePanel.setBackground(skin.primary);
 		titlePanel.setLayout(new FlowLayout(FlowLayout.LEADING));
 		add(titlePanel, BorderLayout.NORTH);
 		
 		JLabel titleLabel = new JLabel("FTP Connection");
-		titleLabel.setFont(titleFont);
-		titleLabel.setForeground(secondary);
+		titleLabel.setFont(skin.titleFont);
+		titleLabel.setForeground(skin.secondary);
 		titlePanel.add(titleLabel);
 		
 		JPanel inputPanel = new JPanel();
-		inputPanel.setBackground(primary);
+		inputPanel.setBackground(skin.primary);
 		inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.PAGE_AXIS));
 		//inputPanel.setPreferredSize(new Dimension(componentWidth, componentHeight));
 		add(inputPanel, BorderLayout.CENTER);
@@ -120,7 +106,7 @@ public class ConnectFrame extends JFrame {
 		
 		//---BUTTONS---
 		JPanel bottomPanel = new JPanel();
-		bottomPanel.setBackground(primary);
+		bottomPanel.setBackground(skin.primary);
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.LINE_AXIS));
 		bottomPanel.setBorder(new EmptyBorder(20,0,20,0));
 		add(bottomPanel, BorderLayout.SOUTH);
@@ -148,7 +134,7 @@ public class ConnectFrame extends JFrame {
 	//contains labels and textfields.
 	private void createInputPanel(JPanel [] panel) {
 		for(int i = 0; i < panel.length; i++) {
-			panel[i].setBackground(primary);
+			panel[i].setBackground(skin.primary);
 			panel[i].setLayout(new FlowLayout(FlowLayout.CENTER));
 			panel[i].setBorder(null);
 		}
@@ -158,8 +144,8 @@ public class ConnectFrame extends JFrame {
 	private void createInputLabel(JLabel [] label) {
 		int tempWidth = 0;
 		for(int i = 0; i < label.length; i++) {
-			label[i].setForeground(secondary);
-			label[i].setFont(infoFont);
+			label[i].setForeground(skin.secondary);
+			label[i].setFont(skin.infoFont);
 			int longest = label[i].getText().length();
 			if(longest > tempWidth) {
 				tempWidth = longest;
@@ -176,12 +162,12 @@ public class ConnectFrame extends JFrame {
 	//Create the textfields within the input panel.
 	private void createInputTextField(JTextField [] tf, int width) {
 		for(int i = 0; i < tf.length; i++) {
-			tf[i].setFont(infoFont);
-			tf[i].setBackground(tert);
-			tf[i].setForeground(primary);
-			tf[i].setCaretColor(primary);
+			tf[i].setFont(skin.infoFont);
+			tf[i].setBackground(skin.tert);
+			tf[i].setForeground(skin.primary);
+			tf[i].setCaretColor(skin.primary);
 			tf[i].setBorder(new EmptyBorder(0,5,0,0));
-			tf[i].setPreferredSize(new Dimension(width, infoFont.getSize() + 10));
+			tf[i].setPreferredSize(new Dimension(width, skin.infoFont.getSize() + 10));
 		}
 	}
 	
@@ -189,10 +175,10 @@ public class ConnectFrame extends JFrame {
 	private void createConnectButtons(JButton [] btn) {
 		int tempWidth = 0;
 		for(int i = 0; i < btn.length; i++) {
-			btn[i].setFont(buttonFont);
-			btn[i].setBackground(tert);
-			btn[i].setForeground(primary);
-			btn[i].setBorder(new LineBorder(secondary));
+			btn[i].setFont(skin.buttonFont);
+			btn[i].setBackground(skin.tert);
+			btn[i].setForeground(skin.primary);
+			btn[i].setBorder(new LineBorder(skin.secondary));
 			btn[i].setFocusPainted(false);
 			int currentWidth = btn[i].getText().length();
 			if(currentWidth > tempWidth) {
