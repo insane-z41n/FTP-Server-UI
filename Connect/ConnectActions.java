@@ -22,7 +22,7 @@ public class ConnectActions {
 		System.exit(0);
 	}
 	
-	//btnConnect attempts to ftp given information.
+	//btnConnect attempts to connect ftp given information.
 	private void connect() {
 		String hostname = conFrame.tfHostname.getText();
 		String username = conFrame.tfUsername.getText();
