@@ -1,18 +1,21 @@
 package Connect;
 
+
 import org.apache.commons.net.ftp.FTPClient;
 
 import FTPAccess.FTPConnection;
+import Manager.ManagerFrame;
 
-public class ConnectActions {
+public class ConnectController {
 	
-	ConnectFrame conFrame;
+	private ConnectFrame conFrame;
+	private FTPConnection conn;
 	
-	public ConnectActions(ConnectFrame conFrame) {
+	public ConnectController(ConnectFrame conFrame) {
 		this.conFrame = conFrame;
 	}
 	
-	public void actions() {
+	public void handler() {
 		conFrame.btnCancel.addActionListener(a -> cancel());
 		conFrame.btnConnect.addActionListener(a -> connect());
 	}
@@ -22,20 +25,24 @@ public class ConnectActions {
 		System.exit(0);
 	}
 	
-	//btnConnect attempts to connect ftp given information.
+	//btnConnect attempts to connect to ftp, given information.
 	private void connect() {
 		String hostname = conFrame.tfHostname.getText();
 		String username = conFrame.tfUsername.getText();
-		char [] pass = conFrame.pfPassword.getPassword();
-		String password = pass.toString();
+		String password = String.valueOf(conFrame.pfPassword.getPassword());
 		
-		FTPConnection conn = new FTPConnection(hostname, username, password);
+		conn = new FTPConnection(hostname, username, password);
 		FTPClient client = conn.getConnection();
-		
 		
 		if(client != null) {
 			//Succesful Connection.
 			System.out.println("You are connected");
+			
+			ManagerFrame mfFrame = new ManagerFrame(conn, conFrame.width, conFrame.height, conFrame.title);
+			mfFrame.initFrame();
+			
+			conFrame.setVisible(false);
+			conFrame.dispose();
 		} else {
 			//Error when connecting.
 			System.out.println("Could not connect");
