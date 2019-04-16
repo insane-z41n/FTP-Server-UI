@@ -94,9 +94,10 @@ public class ConnectFrame extends JFrame {
 		passwordPanel.add(passLabel);
 		
 		//---INPUT TEXTFIELDS---
-		tfHostname = new JTextField();
-		tfUsername = new JTextField();
-		pfPassword = new JPasswordField();
+		tfHostname = new JTextField(""); 
+		tfUsername = new JTextField("");
+		pfPassword = new JPasswordField("");
+		
 		
 		createInputTextField(new JTextField [] {tfHostname, tfUsername, pfPassword}, componentWidth - (labelWidth + 100));
 		
@@ -117,16 +118,14 @@ public class ConnectFrame extends JFrame {
 		createConnectButtons(new JButton [] {btnCancel, btnConnect});
 		
 		bottomPanel.add(Box.createHorizontalGlue());
-		//bottomPanel.add(btnCancel);
-		//bottomPanel.add(Box.createHorizontalGlue());
 		bottomPanel.add(btnConnect);
 		bottomPanel.add(Box.createHorizontalGlue());
 		
 		pack();
 		setVisible(true);
 		
-		ConnectActions conActions = new ConnectActions(this);
-		conActions.actions();
+		ConnectController cc = new ConnectController(this);
+		cc.handler();
 		
 	}
 	
@@ -162,9 +161,9 @@ public class ConnectFrame extends JFrame {
 	//Create the textfields within the input panel.
 	private void createInputTextField(JTextField [] tf, int width) {
 		for(int i = 0; i < tf.length; i++) {
-			tf[i].setFont(skin.infoFont);
+			tf[i].setFont(skin.plainInfoFont);
 			tf[i].setBackground(skin.tert);
-			tf[i].setForeground(skin.primary);
+			tf[i].setForeground(skin.secondary);
 			tf[i].setCaretColor(skin.primary);
 			tf[i].setBorder(new EmptyBorder(0,5,0,0));
 			tf[i].setPreferredSize(new Dimension(width, skin.infoFont.getSize() + 10));
@@ -176,9 +175,9 @@ public class ConnectFrame extends JFrame {
 		int tempWidth = 0;
 		for(int i = 0; i < btn.length; i++) {
 			btn[i].setFont(skin.buttonFont);
-			btn[i].setBackground(skin.tert);
-			btn[i].setForeground(skin.primary);
-			btn[i].setBorder(new LineBorder(skin.secondary));
+			btn[i].setBackground(skin.primary);
+			btn[i].setForeground(skin.secondary);
+			btn[i].setBorder(new LineBorder(skin.secondary, 2));
 			btn[i].setFocusPainted(false);
 			int currentWidth = btn[i].getText().length();
 			if(currentWidth > tempWidth) {
@@ -194,3 +193,4 @@ public class ConnectFrame extends JFrame {
 	
 	
 }
+
