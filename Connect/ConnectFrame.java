@@ -94,9 +94,9 @@ public class ConnectFrame extends JFrame {
 		passwordPanel.add(passLabel);
 		
 		//---INPUT TEXTFIELDS---
-		tfHostname = new JTextField(""); 
-		tfUsername = new JTextField("");
-		pfPassword = new JPasswordField("");
+		tfHostname = new JTextField("24.55.45.180"); //remove this after testing.
+		tfUsername = new JTextField("admin");
+		pfPassword = new JPasswordField("Ashrafa23");
 		
 		
 		createInputTextField(new JTextField [] {tfHostname, tfUsername, pfPassword}, componentWidth - (labelWidth + 100));
@@ -118,6 +118,8 @@ public class ConnectFrame extends JFrame {
 		createConnectButtons(new JButton [] {btnCancel, btnConnect});
 		
 		bottomPanel.add(Box.createHorizontalGlue());
+		//bottomPanel.add(btnCancel);
+		//bottomPanel.add(Box.createHorizontalGlue());
 		bottomPanel.add(btnConnect);
 		bottomPanel.add(Box.createHorizontalGlue());
 		
@@ -193,4 +195,3 @@ public class ConnectFrame extends JFrame {
 	
 	
 }
-
