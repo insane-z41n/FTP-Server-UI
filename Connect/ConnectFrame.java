@@ -94,9 +94,9 @@ public class ConnectFrame extends JFrame {
 		passwordPanel.add(passLabel);
 		
 		//---INPUT TEXTFIELDS---
-		tfHostname = new JTextField("24.55.45.180"); //remove this after testing.
-		tfUsername = new JTextField("admin");
-		pfPassword = new JPasswordField("Ashrafa23");
+		tfHostname = new JTextField();
+		tfUsername = new JTextField();
+		pfPassword = new JPasswordField();
 		
 		
 		createInputTextField(new JTextField [] {tfHostname, tfUsername, pfPassword}, componentWidth - (labelWidth + 100));
