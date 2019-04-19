@@ -6,7 +6,7 @@ import java.awt.Font;
 public class SkinManager {
 	
 	public String fontType;
-	public Color primary, secondary, tert, back;
+	public Color primary, secondary, tert, back, optPrimary;
 	public Font titleFont, infoFont, plainInfoFont, buttonFont;
 	
 	public SkinManager() {
@@ -15,6 +15,7 @@ public class SkinManager {
 		secondary = Color.decode("#0F96D7");
 		tert = Color.decode("#e0e0e0");
 		back = Color.decode("#A9D2E2");
+		optPrimary = Color.decode("#d1f0ff");
 		
 		//FONTS
 		fontType = "";
