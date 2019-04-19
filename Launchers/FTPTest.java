@@ -6,6 +6,8 @@ import java.util.Scanner;
 import FTPAccess.FTPConnection;
 import FTPAccess.FTPConverter;
 import FTPAccess.FTPCreateDir;
+import FTPAccess.FTPDownload;
+import FTPAccess.FTPRemove;
 import FTPAccess.FTPUpload;
 
 public class FTPTest {
@@ -35,29 +37,40 @@ public class FTPTest {
 		
 		//DISPLAYS ON CONSOLE THE DIRECTORY NAMES AND FILE NAMES WITHIN GIVEN PATH.
 		FTPConverter convert = new FTPConverter(conn, path);
-		showDirNames(convert);		//show directories at path.
-		showFileNames(convert);		//show files at path.
+		showDirNames(convert);
+		showFileNames(convert);
 		
-		//Upload File.
+		//UPLOAD FILE.
 		FTPUpload upload = new FTPUpload(conn, path);
-		File file = new File("");	//enter your file path.
+		File file = new File("");
 		if(file.exists()) {
 			System.out.println("\nFile Exists");
 		}
 		upload.uploadFile(file);
 		
-		//Create Directory
-		String dirName = "New Folder";	//enter a folder name.
+		//UPLOAD DIRECTORY.
+		String dirName = "New Folder";
 		FTPCreateDir ftpCreate = new FTPCreateDir(conn, path);
 		try {
 			ftpCreate.createDir(dirName);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		//DOWNLOAD FILE.
+		FTPDownload load = new FTPDownload(conn, path);
+		load.downloadFile("Hello World.txt", "C:/Users/Desktop");
+		
+		//DELETE FILE.
+		FTPRemove remove = new FTPRemove(conn, path);
+		remove.deleteFile("Hello World.txt");
+		
 		System.exit(0);
 	}
 	
-	//Print Directory Names.
+	
+	
+	//Display Directory Names. 
 	private static void showDirNames(FTPConverter convert) {
 		System.out.println("\n<<DIRECTORY NAMES>>");
 		
@@ -72,13 +85,19 @@ public class FTPTest {
 		}
 	}
 	
-	//Print File Names.
+	//Display File Names.
 	private static void showFileNames(FTPConverter convert) {
 		System.out.println("\n<<FILE NAMES>>");
 		String [] fileNames = convert.getFileNames();
-		for(int i = 0; i < fileNames.length; i++) {
-			System.out.println(fileNames[i]);
+		if(fileNames == null) {
+			System.out.println("No Files Found!");
 		}
+		else {
+			for(int i = 0; i < fileNames.length; i++) {
+				System.out.println(fileNames[i]);
+			}
+		}
+		
 	}
 
 }
