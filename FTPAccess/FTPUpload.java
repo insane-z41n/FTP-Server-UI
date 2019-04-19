@@ -1,3 +1,5 @@
+package FTPAccess;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,7 +10,7 @@ import org.apache.commons.net.ftp.FTPClient;
 
 /*-----FILE UPLOAD CLASS------
  * 
- * @param con
+ * @param conn
  * @param path
  * 
  * Uses connection class to copy FTPFile information
@@ -24,45 +26,44 @@ public class FTPUpload {
 		this.conn = conn;
 	}
 	
-	public FTPUpload(FTPConnection conn) {
-		this.conn = conn;
-	}
-	
 	/* uploadFile Method, uploads clients file to ftp host.
 	 * 
 	 * @param localFilePath contains the location of files on clients computer.
 	 * @param uploadFileName is the new file name that will appear on host ftp.
 	 */
-	public void uploadFile(File file) {
+	public boolean uploadFile(File file) {
+		boolean done = false;
+		
 		FTPClient client = conn.getConnection();
-
 		String fileType = file.getName().substring(file.getName().lastIndexOf(".") + 1);
 		System.out.println("The File Type is: " + fileType);
 		
 		try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(file.getPath()))) {
 			client.setFileType(FTP.BINARY_FILE_TYPE);
 			System.out.println("File Path: " + file.getPath());
-			boolean done = false;
-			//upload file to ftp server with new file name.
 			
-			if(uploadPath != null) {
-				//Upload to a specific location.
-				//need to adjust permissions allowed for higher security.
-				client.sendSiteCommand("chmod" + "755" + uploadPath);		//allow access to read and write file.
-				client.changeWorkingDirectory(uploadPath);
-			} else {
-				client.sendSiteCommand("chmod" + "755" + client.printWorkingDirectory());
-			}
+			//Send permission request to site for uploads.
+		
+			//Upload to a specific location.
+			client.sendSiteCommand("chmod" + "755" + uploadPath);
+			client.changeWorkingDirectory(uploadPath);
+		
 			System.out.println("File Name: " + file.getName());
+			
+			//Store file.
 			done = client.storeFile(file.getName(), in);
 			in.close();
-
+			
+			//Check if done.
 			if(done) {
 				System.out.println("\nFile upload was successful! >> " + client.getReplyString());
 			}
 			else {
-				System.out.println("File upload was unsuccessful!");
+				System.out.println("File upload was unsuccessful! >> " + client.getReplyString());
 			}
+			
+
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -72,8 +73,12 @@ public class FTPUpload {
 		}
 		
 		
+		
+		return done;
+		
 	}
 
 	
 	
 }
+
